@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import AppointmentCard from "../../components/appointment-card";
+import { userInfo } from "../../reducers/user-reducer";
 import styles from "./styles";
 
 const Home = () => {
+  
+  const state = useSelector(state => state.user)
+  console.log(state)
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView
@@ -27,7 +33,7 @@ const Home = () => {
         </View>
         {/* user name  */}
         <View style={{ marginTop: 20 }}>
-          <Text style={styles.doctor_name}>Welcome, Dr. Rafay!</Text>
+          <Text style={styles.doctor_name}>Welcome, Dr. {state.user && state.user.fullname}!</Text>
         </View>
         {/* session card  */}
         <View style={styles.session_card}>

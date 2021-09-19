@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { COLORS } from "../../constants/theme";
 import { useNavigation } from "@react-navigation/core";
 
-const AppointmentCard = ({ schedule }) => {
+const AppointmentCard = ({ schedule, nav }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.main_card}>
@@ -34,7 +34,7 @@ const AppointmentCard = ({ schedule }) => {
           {schedule !== "completed" && schedule !== "canceled" ? (
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => navigation.navigate("PatientProfile")}
+              onPress={nav ? () => navigation.navigate("PatientProfile") : console.log('clicked')}
               style={{ paddingLeft: 8 }}
             >
               <SimpleLineIcons name="options" size={25} color="#5B5B5B" />

@@ -17,7 +17,7 @@ const FirstRoute = () => {
                   <Text style={styles.font_date_light}> Friday</Text>
                 </View>
                 <View style={{ marginTop: 10 }}>
-                  <AppointmentCard />
+                  <AppointmentCard nav/>
                 </View>
               </View>
             );

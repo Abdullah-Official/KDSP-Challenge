@@ -20,14 +20,37 @@ import {
 } from "@expo/vector-icons";
 import PatientProfile from "../screens/patient-profile";
 import { useSelector } from "react-redux";
+import MyProfile from "../screens/my-profile";
+import TransactionHistory from "../screens/transaction-history";
+import OpdTimings from "../screens/opd-sreens/opd-timings";
+import AddOpd from "../screens/opd-sreens/add-opd";
 
 const Navigator = () => {
   const token = true;
   const AuthStack = createStackNavigator();
   const Tab = createBottomTabNavigator();
   const ScheduleStack = createStackNavigator();
+  const ProfileStack = createStackNavigator();
   const state = useSelector((state) => state.user);
-  console.log(state);
+
+  const ProfileScreens = () => (
+    <ProfileStack.Navigator
+      headerMode="none"
+      screenOptions={{
+        headerTransparent: true,
+        headerTitle: null,
+        headerShown: false,
+      }}
+      initialRouteName="Profile"
+    >
+      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="MyProfile" component={MyProfile} />
+      <ProfileStack.Screen name="TransactionHistory" component={TransactionHistory} />
+      <ProfileStack.Screen name="OpdTimings" component={OpdTimings} />
+      <ProfileStack.Screen name="AddOpd" component={AddOpd} />
+    </ProfileStack.Navigator>
+  );
+
   const ScheduleScreens = () => (
     <ScheduleStack.Navigator
       headerMode="none"
@@ -45,7 +68,7 @@ const Navigator = () => {
   return (
     <>
       <StatusBar style="auto" />
-      {state.token == "" ? (
+      {state.token ==  null ? (
         <NavigationContainer>
           <AuthStack.Navigator
             headerMode="none"
@@ -114,7 +137,7 @@ const Navigator = () => {
             />
             <Tab.Screen
               name="Profile"
-              component={Profile}
+              component={ProfileScreens}
               options={{
                 tabBarIcon: ({ color }) => (
                   <FontAwesome5 name="user-circle" size={24} color={color} />

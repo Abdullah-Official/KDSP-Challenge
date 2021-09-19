@@ -1,7 +1,6 @@
 import SvgUri from "expo-svg-uri";
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
   ScrollView,
   Text,
   TextInput,
@@ -16,7 +15,7 @@ import { useMutation } from "react-query";
 import { BASE_URL } from "../../app/api";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addToken } from "../../reducers/user-reducer";
+import { addToken, userInfo } from "../../reducers/user-reducer";
 
 const Login = ({ navigation, route }) => {
   const { params } = route;
@@ -29,7 +28,9 @@ const Login = ({ navigation, route }) => {
     {
       onSuccess: (data) => {
         alert("Logged inn");
-        dispatch(addToken(data.data.refresh));
+        dispatch(addToken(data.data[0].refresh));
+        dispatch(userInfo(data.data[1]))
+        console.log(data.data[1]," user")
       },
       onError: (data) => {
         console.log("Error register", data);

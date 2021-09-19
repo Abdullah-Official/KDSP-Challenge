@@ -11,7 +11,7 @@ const GlobalHeader = ({ right, left, title }) => {
       {left && (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          activeOpacity={0.6}
+          activeOpacity={0.2}
         >
           <Ionicons name="arrow-back" size={26} color="black" />
         </TouchableOpacity>
