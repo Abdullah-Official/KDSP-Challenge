@@ -8,6 +8,8 @@ import Login from "../screens/auth-screens/login";
 import SignUp from "../screens/auth-screens/signup";
 import Schedule from "../screens/schecdule";
 import Home from "../screens/home";
+import HomeUser from "../screens/user-screens/HomeScreen/HomePatient";
+import SearchScreen from "../screens/user-screens/Search/SearchScreen";
 import Messages from "../screens/messages";
 import Profile from "../screens/profile";
 import { Platform } from "react-native";
@@ -106,7 +108,7 @@ const Navigator = () => {
           >
             <Tab.Screen
               name="Home"
-              component={Home}
+              component={SearchScreen}
               options={{
                 tabBarIcon: ({ color }) => (
                   <Entypo name="home" size={25} color={color} />
