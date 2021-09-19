@@ -4,22 +4,17 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
-import {
-  FontAwesome5,
-  Entypo,
-  Ionicons,
-  FontAwesome,
-} from "@expo/vector-icons";
-import { style } from "styled-system";
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const HomePatient = () => {
+  const state = useSelector((state) => state.user);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView
@@ -30,7 +25,9 @@ const HomePatient = () => {
         <View style={styles.homeContainer}>
           <View style={styles.homeGreetAndProfileContainer}>
             <View style={styles.homeGreet}>
-              <Text style={styles.greetingPrim}>Hi Salman!</Text>
+              <Text style={styles.greetingPrim}>
+                Hi {state.user && state.user.fullname}!
+              </Text>
               <Text style={styles.greetingSec}>How are you feeling today?</Text>
             </View>
             <View style={styles.profileAndNotif}>

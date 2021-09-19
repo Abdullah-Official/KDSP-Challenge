@@ -47,7 +47,10 @@ const Navigator = () => {
     >
       <ProfileStack.Screen name="Profile" component={Profile} />
       <ProfileStack.Screen name="MyProfile" component={MyProfile} />
-      <ProfileStack.Screen name="TransactionHistory" component={TransactionHistory} />
+      <ProfileStack.Screen
+        name="TransactionHistory"
+        component={TransactionHistory}
+      />
       <ProfileStack.Screen name="OpdTimings" component={OpdTimings} />
       <ProfileStack.Screen name="AddOpd" component={AddOpd} />
     </ProfileStack.Navigator>
@@ -63,14 +66,19 @@ const Navigator = () => {
       }}
       initialRouteName="Schedule"
     >
-      <ScheduleStack.Screen name="Schedule" component={Schedule} />
+      <ScheduleStack.Screen
+        name="Schedule"
+        component={
+          state.user && state.user.role == "doctor" ? Schedule : SearchScreen
+        }
+      />
       <ScheduleStack.Screen name="PatientProfile" component={PatientProfile} />
     </ScheduleStack.Navigator>
   );
   return (
     <>
       <StatusBar style="auto" />
-      {state.token ==  null ? (
+      {state.token == null ? (
         <NavigationContainer>
           <AuthStack.Navigator
             headerMode="none"
@@ -108,7 +116,9 @@ const Navigator = () => {
           >
             <Tab.Screen
               name="Home"
-              component={SearchScreen}
+              component={
+                state.user && state.user.role == "doctor" ? Home : HomeUser
+              }
               options={{
                 tabBarIcon: ({ color }) => (
                   <Entypo name="home" size={25} color={color} />
@@ -121,7 +131,11 @@ const Navigator = () => {
               options={{
                 tabBarIcon: ({ color }) => (
                   <Ionicons
-                    name="ios-briefcase-outline"
+                    name={
+                      state.user && state.user.role == "doctor"
+                        ? "ios-briefcase-outline"
+                        : "search"
+                    }
                     size={24}
                     color={color}
                   />

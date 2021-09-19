@@ -12,14 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
-import {
-  FontAwesome5,
-  Entypo,
-  Ionicons,
-  FontAwesome,
-  Feather,
-} from "@expo/vector-icons";
-import { style } from "styled-system";
+import { FontAwesome5, FontAwesome, Feather } from "@expo/vector-icons";
 
 const SearchScreen = () => {
   let data = [

@@ -9,7 +9,7 @@ import { logout } from "../../reducers/user-reducer";
 const Profile = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const state = useSelector(state => state.user)
+  const state = useSelector((state) => state.user);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,7 +28,9 @@ const Profile = () => {
             />
           </View>
           <View style={{ marginLeft: 20, marginTop: 5 }}>
-            <Text style={styles.name_txt}>Dr. {state.user && state.user.fullname}</Text>
+            <Text style={styles.name_txt}>
+              Dr. {state.user && state.user.fullname}
+            </Text>
             <Text style={styles.email_txt}>anonymous@gmail.com</Text>
           </View>
         </View>
@@ -115,9 +117,12 @@ const Profile = () => {
               <Text style={styles.nav_label}>My Profile</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("OpdTimings")} style={styles.navigations_profile}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("OpdTimings")}
+            style={styles.navigations_profile}
+          >
             <View style={{ justifyContent: "center" }}>
-            <FontAwesome5
+              <FontAwesome5
                 name="hand-holding-medical"
                 size={22}
                 color="#7D7D7D"
@@ -127,7 +132,10 @@ const Profile = () => {
               <Text style={styles.nav_label}>OPD</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("TransactionHistory")} style={styles.navigations_profile}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TransactionHistory")}
+            style={styles.navigations_profile}
+          >
             <View style={{ justifyContent: "center" }}>
               <MaterialIcons name="receipt" size={22} color="#7D7D7D" />
             </View>
