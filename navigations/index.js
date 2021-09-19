@@ -1,38 +1,36 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import userReducer from "../reducers/user-reducer";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Role from "../screens/auth-screens/role";
+import Login from "../screens/auth-screens/login";
+import SignUp from "../screens/auth-screens/signup";
 
 const Navigator = () => {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  console.log(user);
-  useEffect(() => {
-    dispatch(userReducer);
-  }, []);
-
+  const AuthStack = createStackNavigator();
   return (
-    <View style={styles.container}>
-      <Text style={{ fontFamily: "CabinBold", fontSize: 20 }}>
-        Data From Redux :)
-      </Text>
-      <Text style={{ fontFamily: "CabinMedium" }}>{user.name}</Text>
-      <Text style={{ fontFamily: "CabinMedium" }}>{user.age}</Text>
-      <Text style={{ fontFamily: "CabinMedium" }}>{user.email}</Text>
-      <StatusBar style="auto" />
-    </View>
+   <>
+   <StatusBar style="auto" />
+   <NavigationContainer>
+    <AuthStack.Navigator
+    headerMode="none"
+    screenOptions={{
+      headerTransparent: true,
+      headerTitle: null,
+      headerShown: false,
+    }}
+    headerShown='false'
+    initialRouteName="Role"
+  >
+    <AuthStack.Screen name="Role" component={Role} />
+    <AuthStack.Screen name="Login" component={Login} />
+    <AuthStack.Screen name="SignUp" component={SignUp} />
+  </AuthStack.Navigator>
+  </NavigationContainer>
+   </>
   );
 };
 
 export default Navigator;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
