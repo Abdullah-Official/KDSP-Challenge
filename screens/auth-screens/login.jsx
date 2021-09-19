@@ -12,12 +12,40 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import CommonButton from "../../components/common-button";
 import { COLORS } from "../../constants/theme";
+import { useMutation } from "react-query";
+import { BASE_URL } from "../../app/api";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addToken } from "../../reducers/user-reducer";
 
 const Login = ({ navigation, route }) => {
   const { params } = route;
-  console.log(params, " params");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  const mutation = useMutation(
+    (post) => axios.post(`${BASE_URL}/auth/api/v1/login/`, post),
+    {
+      onSuccess: (data) => {
+        alert("Logged inn");
+        dispatch(addToken(data.data.refresh));
+      },
+      onError: (data) => {
+        console.log("Error register", data);
+      },
+    }
+  );
+
+  const LoginDoctor = () => {
+    mutation.mutate({
+      username: email,
+      password: password,
+      role: params.role,
+    });
+    setEmail();
+    setPassword();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -100,7 +128,7 @@ const Login = ({ navigation, route }) => {
                 </View>
               </View>
               <View style={{ marginTop: 25 }}>
-                <CommonButton title="Login" />
+                <CommonButton title="Login" onPress={() => LoginDoctor()} />
               </View>
             </View>
           </View>
@@ -135,7 +163,9 @@ const Login = ({ navigation, route }) => {
               </View>
               <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={() => navigation.navigate("SignUp", {role:params.role})}
+                onPress={() =>
+                  navigation.navigate("SignUp", { role: params.role })
+                }
               >
                 <Text style={styles.forgot_txt}> Register</Text>
               </TouchableOpacity>

@@ -6,17 +6,70 @@ import styles from "./styles";
 import CommonButton from "../../components/common-button";
 import { Icon, Select } from "native-base";
 import CommonInput from "../../components/common-input";
+import { BASE_URL } from "../../app/api";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const SignUp = ({ navigation, route }) => {
   const { params } = route;
-  console.log(params, " params");
+  console.log(params.role, " params");
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [exp, setExp] = useState("");
   const [password, setPassword] = useState("");
-  const [cpassword, setCPassword] = useState("");
+  // const [cpassword, setCPassword] = useState("");
   const [specialization, setSpecialization] = useState("");
+
+  const mutation = useMutation(
+    (post) => axios.post(`${BASE_URL}/auth/api/v1/register/`, post),
+    {
+      onSuccess: (data) => {
+        alert("Regitered");
+      },
+      onError: (data) => {
+        console.log("Error register", data);
+      },
+    }
+  );
+
+  const registerDoctor = () => {
+    mutation.mutate({
+      username: email,
+      email: email,
+      password: password,
+      role: params.role,
+      experience: exp,
+      specialization: specialization,
+      country: "Pakistan",
+      phone_no: phone,
+      fullname: fullName,
+    });
+    setFullName();
+    setEmail();
+    setPhone();
+    setPassword();
+    setSpecialization();
+    setExp();
+  };
+
+  const registerPatient = () => {
+    mutation.mutate({
+      username: email,
+      email: email,
+      password: password,
+      role: params.role,
+      experience: null,
+      specialization: null,
+      country: "Pakistan",
+      phone_no: phone,
+      fullname: fullName,
+    });
+    setFullName();
+    setEmail();
+    setPhone();
+    setPassword();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -92,57 +145,59 @@ const SignUp = ({ navigation, route }) => {
                 value={phone}
                 setValue={(e) => setPhone(e)}
               />
-              {
-                params.role == 'doctor' ? (
-                    <>
+              {params.role == "doctor" ? (
+                <>
+                  <View
+                    style={
+                      (styles.main_input,
+                      { ...styles.main_input, marginTop: 30 })
+                    }
+                  >
                     <View
-                style={
-                  (styles.main_input, { ...styles.main_input, marginTop: 30 })
-                }
-              >
-                <View
-                  style={
-                    (styles.auth_inputs_container,
-                    {
-                      ...styles.auth_inputs_container,
-                      justifyContent: "space-between",
-                    })
-                  }
-                >
-                  <View style={{ width: "10%" }}>
-                    <SvgUri
-                      width="20"
-                      height="20"
-                      source={require("../../assets/images/specialization-icon.svg")}
-                    />
-                  </View>
-                  <View style={{ width: "90%" }}>
-                    <Select
-                      placeholder="Mode of payment"
-                      width={"100%"}
-                      style={{ backgroundColor: "transparent" }}
-                      placeholder="Specialization"
-                      selectedValue={specialization}
-                      onValueChange={(e) => setSpecialization(e)}
+                      style={
+                        (styles.auth_inputs_container,
+                        {
+                          ...styles.auth_inputs_container,
+                          justifyContent: "space-between",
+                        })
+                      }
                     >
-                      <Select.Item
-                        label="Psychiatrists"
-                        value="Psychiatrists"
-                      />
-                      <Select.Item label="Psychologist" value="Psychologist" />
-                    </Select>
+                      <View style={{ width: "10%" }}>
+                        <SvgUri
+                          width="20"
+                          height="20"
+                          source={require("../../assets/images/specialization-icon.svg")}
+                        />
+                      </View>
+                      <View style={{ width: "90%" }}>
+                        <Select
+                          placeholder="Mode of payment"
+                          width={"100%"}
+                          style={{ backgroundColor: "transparent" }}
+                          placeholder="Specialization"
+                          selectedValue={specialization}
+                          onValueChange={(e) => setSpecialization(e)}
+                        >
+                          <Select.Item
+                            label="Psychiatrists"
+                            value="Psychiatrists"
+                          />
+                          <Select.Item
+                            label="Psychologist"
+                            value="Psychologist"
+                          />
+                        </Select>
+                      </View>
+                    </View>
                   </View>
-                </View>
-              </View>
-              <CommonInput
-                icon={require("../../assets/images/experience-icon.svg")}
-                placeholder="Experience"
-                value={exp}
-                setValue={(e) => setExp(e)}
-              />
-                    </>                  
-                ) : null
-              }
+                  <CommonInput
+                    icon={require("../../assets/images/experience-icon.svg")}
+                    placeholder="Experience"
+                    value={exp}
+                    setValue={(e) => setExp(e)}
+                  />
+                </>
+              ) : null}
               <CommonInput
                 icon={require("../../assets/images/password-icon.svg")}
                 placeholder="Password"
@@ -151,17 +206,24 @@ const SignUp = ({ navigation, route }) => {
                 secureText={true}
                 setValue={(e) => setPassword(e)}
               />
-              <CommonInput
+              {/* <CommonInput
                 icon={require("../../assets/images/password-icon.svg")}
                 placeholder="Confirm Password"
                 value={cpassword}
                 placeholderColor={true}
                 secureText={true}
                 setValue={(e) => setCPassword(e)}
-              />
+              /> */}
             </View>
             <View style={{ marginTop: 30, marginBottom: 20 }}>
-              <CommonButton title="Sign up" />
+              <CommonButton
+                title="Sign up"
+                onPress={
+                  params.role == "doctor"
+                    ? () => registerDoctor()
+                    : () => registerPatient()
+                }
+              />
             </View>
           </View>
           <View style={styles.new_platform_cont}>

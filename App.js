@@ -4,9 +4,11 @@ import React from "react";
 import Navigator from "./navigations";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider } from "native-base";
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App() {
+  const queryClient = new QueryClient()
   let [fontsLoaded] = useFonts({
     CabinBold: require("./assets/fonts/Cabin-Bold.ttf"),
     CabinSemiBold: require("./assets/fonts/Cabin-SemiBold.ttf"),
@@ -17,11 +19,13 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
+        <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <NativeBaseProvider>
-        <Navigator />
+          <Navigator />
         </NativeBaseProvider>
       </Provider>
+      </QueryClientProvider>
     );
   }
 }
